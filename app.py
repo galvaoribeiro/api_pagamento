@@ -9,6 +9,7 @@ app = Flask(__name__)
 # Inicialize o SDK do Mercado Pago
 sdk = mercadopago.SDK("APP_USR-5966197263163161-070317-6ab5cace0b168a1161e2acb15eb3e35c-1883683525")
 
+
 @app.route("/")
 def homepage():
     #print(f'entrei na homepage')
