@@ -9,8 +9,12 @@ def gerar_link_pagamento(user_id):
         ],
 
         "payer": {
-            "id": user_id,  # Adiciona o ID do usuário comprador
-            "email": "test_user_123456@testuser.com"
+           # "id": user_id,  # Adiciona o ID do usuário comprador
+            #"email": "test_user_123456@testuser.com"
+            "identification": {
+      "type": "id_comprador",
+      "number": user_id
+    },
         },
         
         "back_urls": {
