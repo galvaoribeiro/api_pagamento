@@ -16,6 +16,6 @@ def gerar_link_pagamento():
     }
     result = sdk.preference().create(payment_data)
     payment = result["response"]
-    #print(payment)
+    print(f'criação da preferência de pagamento: {payment}')
     link_iniciar_pagamento = payment["init_point"]
     return link_iniciar_pagamento
