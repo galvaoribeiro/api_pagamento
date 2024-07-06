@@ -1,11 +1,13 @@
-'''
-from flask import Flask, render_template
+from flask import Flask, request, render_template
+from apimercadopago import gerar_link_pagamento
+#import mercadopago
 
 app = Flask(__name__)
 
 @app.route("/")
 def homepage():
-    return render_template("homepage.html")
+    link_iniciar_pagamento = gerar_link_pagamento()
+    return render_template("homepage.html", link_pagamento=link_iniciar_pagamento)
 
 @app.route("/compracerta")
 def compra_certa():
@@ -15,22 +17,12 @@ def compra_certa():
 def compra_errada():
     return render_template("compraerrada.html")
 
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    data = request.json
+    print(data)
+    return '', 200
+
+
 if __name__ == "__main__":
     app.run()
-
-
-
-from fastapi import FastAPI
-
-import requests
-
-app = FastAPI()
-
-
-@app.get("/")
-def home():
-    #return "minha api está no ar"
-    dicionario = requests.json
-
-
-'''
