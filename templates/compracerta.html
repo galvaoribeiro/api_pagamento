@@ -17,6 +17,8 @@
             <li>Detalhes: {{ payment_info.description }}</li>
             <li>Valor: R$ {{ payment_info.transaction_amount }}</li>
             <li>Data: {{ payment_info.date_approved }}</li>
+            <li>ID do Comprador: {{ payment_info.payer.id }}</li>
+            <li>Email do Comprador: {{ payment_info.payer.email }}</li>
         </ul>
     {% else %}
         <p>Não há informações de pagamento disponíveis.</p>

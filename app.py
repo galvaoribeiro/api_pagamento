@@ -11,7 +11,8 @@ sdk = mercadopago.SDK("APP_USR-5966197263163161-070317-6ab5cace0b168a1161e2acb15
 
 @app.route("/")
 def homepage():
-    print(f'entrei na homepage')
+    #print(f'entrei na homepage')
+    user_id = "user123"  # Exemplo de ID do usuário comprador
     link_iniciar_pagamento = gerar_link_pagamento()
     
     return render_template("homepage.html", link_pagamento=link_iniciar_pagamento)
@@ -35,7 +36,7 @@ def compra_errada():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.json
-    print(f'dados na função webhook: {data}')
+    #print(f'dados na função webhook: {data}')
     if data:
         with open("webhook_logs.json", "a") as webhook_log:
             json.dump(data, webhook_log)
@@ -46,7 +47,7 @@ def webhook():
             # Chame a API do Mercado Pago para obter os detalhes do pagamento
             payment = sdk.payment().get(payment_id)
             payment_info = payment['response']
-            print(f'retorno com sucesso das informações de pagamento: {payment_info}')
+            #print(f'retorno com sucesso das informações de pagamento: {payment_info}')
             # Processar informações do pagamento
             process_payment(payment_info)
 
@@ -57,7 +58,7 @@ def process_payment(payment_info):
     with open("payments.json", "a") as payments_file:
         json.dump(payment_info, payments_file)
         payments_file.write("\n")
-        print(f'escrevendo na função process payment')
+        #print(f'escrevendo na função process payment')
 
     print(f"Pagamento recebido: {payment_info}")
 
