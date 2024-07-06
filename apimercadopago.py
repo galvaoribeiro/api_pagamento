@@ -8,9 +8,9 @@ def gerar_link_pagamento():
             {"id": "1", "title": "Camisa", "quantity": 1, "currency_id": "BRL", "unit_price": 259.99}
         ],
         "back_urls": {
-            "success": "http://127.0.0.1:5000/compracerta",
-            "failure": "http://127.0.0.1:5000/compraerrada",
-            "pending": "http://127.0.0.1:5000/compraerrada",
+            "success": "https://web-production-190ab.up.railway.app//compracerta",
+            "failure": "https://web-production-190ab.up.railway.app//compraerrada",
+            "pending": "https://web-production-190ab.up.railway.app//compraerrada",
         },
         "auto_return": "all"
     }
