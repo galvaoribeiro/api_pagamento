@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Compra Concluída</title>
 </head>
 <body>
     <h1>Compra concluída com sucesso</h1>
     <a href="/">Voltar</a>
+    
+    {% if payment_info %}
+        <h2>Detalhes do Pagamento</h2>
+        <ul>
+            <li>ID do Pagamento: {{ payment_info.id }}</li>
+            <li>Status: {{ payment_info.status }}</li>
+            <li>Detalhes: {{ payment_info.description }}</li>
+            <li>Valor: R$ {{ payment_info.transaction_amount }}</li>
+            <li>Data: {{ payment_info.date_approved }}</li>
+        </ul>
+    {% else %}
+        <p>Não há informações de pagamento disponíveis.</p>
+    {% endif %}
 </body>
 </html>
