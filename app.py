@@ -37,7 +37,7 @@ def compra_errada():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.json
-    #print(f'dados na função webhook: {data}')
+    print(f'dados na função webhook: {data}')
     if data:
         with open("webhook_logs.json", "a") as webhook_log:
             json.dump(data, webhook_log)
