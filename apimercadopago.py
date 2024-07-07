@@ -26,6 +26,14 @@ def gerar_link_pagamento(user_id):
     }
     result = sdk.preference().create(payment_data)
     payment = result["response"]
+
+    external_reference = f"user_{user_id}-{payment['id']}"
+    payment['external_reference'] = external_reference
+    payment_data['external_reference'] = external_reference
+
+    # Atualizar a preferência com o external_reference
+    sdk.preference().update(payment['id'], payment_data)
+    
     print(f'criação da preferência de pagamento: {payment}')
     link_iniciar_pagamento = payment["init_point"]
     return link_iniciar_pagamento

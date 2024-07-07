@@ -19,6 +19,7 @@
             <li>Data: {{ payment_info.date_approved }}</li>
             <li>Tipo de ID do Comprador: {{ payment_info.payer.identification.type }}</li>
             <li>Número de ID do Comprador: {{ payment_info.payer.identification.number }}</li>
+            <li>Referência Externa: {{ payment_info.external_reference }}</li>
         </ul>
     {% else %}
         <p>Não há informações de pagamento disponíveis.</p>
