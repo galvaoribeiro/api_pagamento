@@ -1,38 +1,49 @@
 from flask import Flask, request, render_template
-from apimercadopago import gerar_link_pagamento
+from apimercadopago import criar_assinatura, criar_planos
 import mercadopago
-import json
-import os
 
 app = Flask(__name__)
 
-# Inicialize o SDK do Mercado Pago
-sdk = mercadopago.SDK("APP_USR-5966197263163161-070317-6ab5cace0b168a1161e2acb15eb3e35c-1883683525")
-
+# IDs dos planos de assinatura previamente criados
+PLANO_STARTER_ID = "your_starter_plan_id"
+PLANO_ADVANCED_ID = "your_advanced_plan_id"
+PLANO_PREMIUM_ID = "your_premium_plan_id"
 
 @app.route("/")
 def homepage():
-    #print(f'entrei na homepage')
-    user_id = "69"  # Exemplo de ID do usuário comprador
-    link_iniciar_pagamento = gerar_link_pagamento(user_id)
-    
-    return render_template("homepage.html", link_pagamento=link_iniciar_pagamento)
+    return render_template("homepage.html")
 
-@app.route("/compracerta")
-def compra_certa():
-    # Aqui estamos lendo o último pagamento do arquivo JSON para simulação
-    if os.path.exists("payments.json"):
-        with open("payments.json", "r") as payments_file:
-            payments = payments_file.readlines()
-            if payments:
-                last_payment = json.loads(payments[-1])
-                return render_template("compracerta.html", payment_info=last_payment)
+@app.route("/criar_assinatura", methods=["POST"])
+def criar_assinatura_view():
+    user_id = "123456789"  # Exemplo de ID do usuário comprador
+    plano = request.form.get("plano")
     
-    return render_template("compracerta.html", payment_info=None)
+    if plano == "starter":
+        plan_id = PLANO_STARTER_ID
+    elif plano == "advanced":
+        plan_id = PLANO_ADVANCED_ID
+    elif plano == "premium":
+        plan_id = PLANO_PREMIUM_ID
+    else:
+        return "Plano inválido", 400
 
-@app.route("/compraerrada")
-def compra_errada():
-    return render_template("compraerrada.html")
+    try:
+        subscription_id = criar_assinatura(user_id, plan_id)
+        return f'Assinatura criada com ID: {subscription_id}'
+    except ValueError as e:
+        return str(e), 400
+
+@app.route("/assinatura_concluida")
+def assinatura_concluida():
+    return render_template("assinatura_concluida.html")
+
+if __name__ == "__main__":
+    app.run()
+
+
+
+
+'''
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -66,3 +77,4 @@ def process_payment(payment_info):
 
 if __name__ == "__main__":
     app.run()
+'''
