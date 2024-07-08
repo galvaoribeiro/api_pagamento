@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Ecommerce Teste</h1>
-    <p>Camisa</p>
-    <p>Preço: R$259,99</p>
-    <a href={{ link_pagamento }}>Compre aqui</a>
+    <h1>Bem-vindo</h1>
+    <form action="/criar_assinatura" method="post">
+        <label for="plano">Selecione um plano de assinatura:</label>
+        <select name="plano" id="plano">
+            <option value="starter">Starter</option>
+            <option value="advanced">Advanced</option>
+            <option value="premium">Premium</option>
+        </select>
+        <button type="submit">Assinar</button>
+    </form>
 </body>
 </html>
