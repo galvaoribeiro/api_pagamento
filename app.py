@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from apimercadopago import gerar_link_pagamento
+from apimercadopago import gerar_link_pagamento_essential
 import mercadopago
 import json
 import os
@@ -11,10 +11,10 @@ sdk = mercadopago.SDK("APP_USR-5966197263163161-070317-6ab5cace0b168a1161e2acb15
 
 
 @app.route("/")
-def homepage():
+def Plano_Essencial():
     #print(f'entrei na homepage')
     user_id = "69"  # Exemplo de ID do usuário comprador
-    link_iniciar_pagamento = gerar_link_pagamento(user_id)
+    link_iniciar_pagamento = gerar_link_pagamento_essential(user_id)
     
     return render_template("homepage.html", link_pagamento=link_iniciar_pagamento)
 
