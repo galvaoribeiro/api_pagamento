@@ -5,7 +5,8 @@ def gerar_link_pagamento(user_id):
 
     payment_data = {
         "items": [
-            {"id": "1", "title": "Camisa", "quantity": 1, "currency_id": "BRL", "unit_price": 259.99}
+            {"id": "1", "title": "Camisa", "quantity": 1, "currency_id": "BRL", "unit_price": 259.99},
+            {"id": "2", "title": "short", "quantity": 1, "currency_id": "BRL", "unit_price": 49.99}
         ],
 
         "payer": {
