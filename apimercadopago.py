@@ -1,75 +1,39 @@
 import mercadopago
 
-def criar_planos():
+def gerar_link_pagamento(user_id):
     sdk = mercadopago.SDK("APP_USR-5966197263163161-070317-6ab5cace0b168a1161e2acb15eb3e35c-1883683525")
 
-    planos = [
-        {
-            "reason": "Plano Starter",
-            "auto_recurring": {
-                "frequency": 1,
-                "frequency_type": "months",
-                "transaction_amount": 50,
-                "currency_id": "BRL",
-                "repetitions": 12,
-                "free_trial": {
-                    "frequency": 1,
-                    "frequency_type": "months"
-                },
-            },
-            "back_url": "https://www.mercadopago.com.co/subscriptions",
+    payment_data = {
+        "items": [
+            {"id": "1", "title": "Camisa", "quantity": 1, "currency_id": "BRL", "unit_price": 259.99}
+        ],
+
+        "payer": {
+           # "id": user_id,  # Adiciona o ID do usuário comprador
+            #"email": "test_user_123456@testuser.com"
+            "identification": {
+      "type": "id_comprador",
+      "number": user_id
+    },
         },
-        {
-            "reason": "Plano Advanced",
-            "auto_recurring": {
-                "frequency": 1,
-                "frequency_type": "months",
-                "transaction_amount": 100,
-                "currency_id": "BRL",
-                "repetitions": 12,
-                "free_trial": {
-                    "frequency": 1,
-                    "frequency_type": "months"
-                },
-            },
-            "back_url": "https://www.mercadopago.com.co/subscriptions",
+        
+        "back_urls": {
+            "success": "https://web-production-190ab.up.railway.app/compracerta",
+            "failure": "https://web-production-190ab.up.railway.app/compraerrada",
+            "pending": "https://web-production-190ab.up.railway.app/compraerrada",
         },
-        {
-            "reason": "Plano Premium",
-            "auto_recurring": {
-                "frequency": 1,
-                "frequency_type": "months",
-                "transaction_amount": 150,
-                "currency_id": "BRL",
-                "repetitions": 12,
-                "free_trial": {
-                    "frequency": 1,
-                    "frequency_type": "months"
-                },
-            },
-            "back_url": "https://www.mercadopago.com.co/subscriptions",
-        }
-    ]
+        "auto_return": "all"
+    }
+    result = sdk.preference().create(payment_data)
+    payment = result["response"]
 
-    ids_planos = []
-    for plano in planos:
-        print(f'plano: {plano}')
-        result = sdk.plan().create(plano)
-        resposta = result['response']
-        print(f'resposta é: {resposta}')
-        if 'id' in result['response']:
-            plano_id = result['response']['id']
-            ids_planos.append(plano_id)
-            print(f'Plano "{plano["reason"]}" criado com ID: {plano_id}')
-        else:
-            raise ValueError("A resposta da API do Mercado Pago não contém um campo 'id'.")
+    external_reference = f"user_{user_id}-{payment['id']}"
+    payment['external_reference'] = external_reference
+    payment_data['external_reference'] = external_reference
 
-    return ids_planos
-
-# Executar a criação dos planos e imprimir os IDs
-if __name__ == "__main__":
-    ids_planos = criar_planos()
-    print("IDs dos planos criados:", ids_planos)
-
-
-
+    # Atualizar a preferência com o external_reference
+    sdk.preference().update(payment['id'], payment_data)
+    
+    print(f'criação da preferência de pagamento: {payment}')
+    link_iniciar_pagamento = payment["init_point"]
+    return link_iniciar_pagamento
